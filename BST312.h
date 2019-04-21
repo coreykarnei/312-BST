@@ -247,7 +247,12 @@ void BST_312 <ItemType>::deleteItem(const ItemType& newItem)
 template<class ItemType>
 void BST_312 <ItemType>::makeEmpty(TreeNode*& t)
 {
-    //YOUR CODE GOES HERE
+    if( t == NULL){                         //if pointing to NULL, no tree
+        return;
+    }
+    makeEmpty(t->left);                     //call this func on left
+    makeEmpty(t->right);                    //and right subtrees
+    delete(t);                              //delete node on the way out
 }
 
 template<class ItemType>
@@ -285,15 +290,29 @@ bool BST_312 <ItemType>::isFull() const
 template<class ItemType>
 void BST_312 <ItemType>::insertItem(TreeNode*& t, const ItemType& newItem)
 {
+    if(t == NULL) {                                     //if tree is empty,
+        TreeNode* temp = new TreeNode;                  //create temp node
+        temp->data  = newItem;                          //with data newItem
+        temp->left = NULL;                              //and no subtrees
+        temp->right = NULL;
 
-    //YOUR CODE GOES HERE
+        t = temp;                                       //then point t at new node
+    }
+    else{
+        if( newItem > t->data){
+            insertItem(t->right, newItem);
+        }
+        else{
+            insertItem(t->left,newItem);
+        }
+    }
 
 }
 
 template<class ItemType>
 void BST_312 <ItemType>::insertItem(const ItemType& newItem)
 {
-    //YOUR CODE GOES HERE
+    insertItem(root, newItem);
 }
 
 
@@ -301,15 +320,22 @@ void BST_312 <ItemType>::insertItem(const ItemType& newItem)
 template<class ItemType>
 int BST_312 <ItemType>::countNodes(TreeNode* t) const
 {
-    //YOUR CODE GOES HERE
+    int count = 1;
 
+    if(t->left != NULL){
+        count = countNodes(t->left);
+    }
+    if(t->right != NULL){
+        count = countNodes(t->right);
+    }
+    return count
 }
 
 
 template<class ItemType>
 int BST_312 <ItemType>::countNodes()
 {
-    //YOUR CODE GOES HERE
+    return countNodes(root);
 }
 
 template<class ItemType>
